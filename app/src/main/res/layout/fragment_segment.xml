@@ -1,3 +1,42 @@
+<!--&lt;!&ndash; fragment_segment.xml &ndash;&gt;-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:orientation="vertical">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/segment1"-->
+<!--        android:layout_width="336dp"-->
+<!--        android:layout_height="154dp"-->
+<!--        android:src="@drawable/cloud_1" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/segment2"-->
+<!--        android:layout_width="318dp"-->
+<!--        android:layout_height="101dp"-->
+<!--        android:src="@drawable/sun3f" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/segment3"-->
+<!--        android:layout_width="240dp"-->
+<!--        android:layout_height="128dp"-->
+<!--        android:src="@drawable/birds_2" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/wheeloftime"-->
+<!--        android:layout_width="345dp"-->
+<!--        android:layout_height="204dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:padding="16dp"-->
+<!--        android:src="@drawable/wheeloftime" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/newImageView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="147dp"-->
+<!--        android:src="@drawable/autumn" />-->
+<!--</LinearLayout>-->
+
 <!-- fragment_segment.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -22,6 +61,17 @@
         android:layout_height="128dp"
         android:src="@drawable/birds_2" />
 
+    <TextView
+        android:id="@+id/currentTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Date and Time"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp" />
+
     <ImageView
         android:id="@+id/wheeloftime"
         android:layout_width="345dp"
@@ -33,6 +83,8 @@
     <ImageView
         android:id="@+id/newImageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="147dp"
         android:src="@drawable/autumn" />
+
+
 </LinearLayout>
