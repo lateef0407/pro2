@@ -247,8 +247,9 @@ class SegmentFragment : Fragment() {
         // Set up a Handler to change the image periodically (slideshow effect)
         val imageResources = intArrayOf(
             R.drawable.autumn,
-            R.drawable.cloud_1,
-            R.drawable.sun3f
+            R.drawable.summer,
+            R.drawable.winter,
+            R.drawable.spring
         )
 
         val handler = Handler()
