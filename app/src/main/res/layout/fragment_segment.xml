@@ -17,20 +17,20 @@
 
     <ImageView
         android:id="@+id/segment1"
-        android:layout_width="223dp"
-        android:layout_height="107dp"
+        android:layout_width="222dp"
+        android:layout_height="85dp"
         android:src="@drawable/cloud_1" />
 
     <ImageView
         android:id="@+id/segment2"
-        android:layout_width="318dp"
-        android:layout_height="101dp"
+        android:layout_width="270dp"
+        android:layout_height="84dp"
         android:src="@drawable/sun3f" />
 
     <ImageView
         android:id="@+id/segment3"
-        android:layout_width="190dp"
-        android:layout_height="102dp"
+        android:layout_width="184dp"
+        android:layout_height="86dp"
         android:src="@drawable/birds_2" />
 
     <TextView
