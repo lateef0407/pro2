@@ -1,5 +1,4 @@
 package com.example.pro2
-
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -14,6 +13,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.pro2.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +23,24 @@ class SegmentFragment : Fragment() {
 
     // Animation used for scaling
     private lateinit var animation: Animation
+
+    private var currentStep = 0
+    private val steps = listOf(
+        Step(R.color.yellow, R.raw.summer_song, 0),
+        Step(R.color.white, R.raw.spring_song, 15000),
+        Step(R.color.OrangeRed, R.raw.autumn_song, 30000),
+        Step(R.color.darkseagreen, R.raw.winter_song, 45000)
+    )
+
+    val backgroundColors = intArrayOf(
+        R.color.yellow,
+        R.color.white,
+        R.color.OrangeRed,
+        R.color.darkseagreen
+    )
+
+    private val backgroundColorChangeDelay = 5000L // 5 seconds
+    private val backgroundColorHandler = Handler()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,8 +126,15 @@ class SegmentFragment : Fragment() {
         // Start updating the current date and time
         handler.postDelayed(timeRunnable, updateIntervalInMillis.toLong())
 
-        // Return the inflated view
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the animations and color changes, but don't start them immediately
+        // Instead, start them when the "Start" button is clicked
+        // startAnimations()
     }
 
     // Function to apply animations to all ImageViews simultaneously
@@ -134,6 +159,14 @@ class SegmentFragment : Fragment() {
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(animators)
         animatorSet.start()
+
+        // Apply background color change and play music based on currentStep
+        val step = steps[currentStep]
+        updateBackgroundColor(step.backgroundColor)
+        playMusic(step.musicResId)
+
+        // Increment currentStep and reset to 0 if it reaches the end
+        currentStep = (currentStep + 1) % steps.size
     }
 
     // Function to start animations for all ImageViews simultaneously
@@ -143,6 +176,9 @@ class SegmentFragment : Fragment() {
         val segment3 = view?.findViewById<ImageView>(R.id.segment3)
 
         applyAnimations(segment1!!, segment2!!, segment3!!)
+
+        // Start the background color change task
+        startBackgroundColorChangeTask()
     }
 
     // Function to stop animations for all ImageViews
@@ -155,11 +191,28 @@ class SegmentFragment : Fragment() {
         segment1?.animation?.cancel()
         segment2?.animation?.cancel()
         segment3?.animation?.cancel()
+
+        // Reset background color and stop the music
+        updateBackgroundColor(steps[currentStep].backgroundColor)
+        stopMusic()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Release the MediaPlayer when the fragment's view is destroyed
+    fun updateBackgroundColor(colorResId: Int) {
+        val color = context?.let { context -> resources.getColor(colorResId, context.theme) }
+        view?.setBackgroundColor(color ?: 0)
+    }
+
+    private fun playMusic(musicResId: Int) {
+        mediaPlayer.stop()
+        mediaPlayer.reset()
+        mediaPlayer = MediaPlayer.create(requireContext(), musicResId)
+        mediaPlayer.setOnPreparedListener {
+            mediaPlayer.start()
+        }
+    }
+
+    private fun stopMusic() {
+        mediaPlayer.stop()
         mediaPlayer.release()
     }
 
@@ -168,4 +221,30 @@ class SegmentFragment : Fragment() {
         val currentDateAndTime = Date()
         return dateFormat.format(currentDateAndTime)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mediaPlayer.release()
+        backgroundColorHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun startBackgroundColorChangeTask() {
+        backgroundColorHandler.removeCallbacksAndMessages(null)
+        backgroundColorHandler.postDelayed(backgroundTask, backgroundColorChangeDelay)
+    }
+
+    private val backgroundTask = object : Runnable {
+        override fun run() {
+            currentStep = (currentStep + 1) % steps.size
+
+            // Apply background color change and play music based on currentStep
+            val step = steps[currentStep]
+            updateBackgroundColor(step.backgroundColor)
+
+            // Schedule the next background color change after the delay
+            backgroundColorHandler.postDelayed(this, backgroundColorChangeDelay)
+        }
+    }
+
+    data class Step(val backgroundColor: Int, val musicResId: Int, val delayInMillis: Int)
 }

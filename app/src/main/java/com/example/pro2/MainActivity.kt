@@ -2,7 +2,6 @@ package com.example.pro2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.animation.AnimationUtils
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val btnStartAnimation = findViewById<Button>(R.id.btnStartAnimation)
         btnStartAnimation.setOnClickListener {
             segmentFragment.startAnimations()
+            setInitialBackgroundColor()
         }
 
         // Set click listener for the "Stop Animation" button
@@ -34,5 +34,9 @@ class MainActivity : AppCompatActivity() {
         btnStopAnimation.setOnClickListener {
             segmentFragment.stopAnimations()
         }
+    }
+
+    private fun setInitialBackgroundColor() {
+        segmentFragment.updateBackgroundColor(segmentFragment.backgroundColors[0])
     }
 }
